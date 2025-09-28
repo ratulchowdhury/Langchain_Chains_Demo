@@ -25,4 +25,6 @@ parser = StrOutputParser()
 chain = template | llm | parser
 
 result = chain.invoke({"book": "Norweigian Wood"})
+
 print(result)
+chain.get_graph().print_ascii()
