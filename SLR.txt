@@ -1,0 +1,94 @@
+Simple Linear Regression: A Comprehensive Guide
+Overview
+Simple linear regression models the relationship between one predictor and one outcome using a straight line that best fits the data under defined statistical criteria. It is foundational for predictive modeling, causal analysis under assumptions, and exploratory data analysis in many domains. The core objective is to quantify how the mean response changes with the predictor and to make predictions for new predictor values.
+When to use
+Simple linear regression is appropriate when an approximately linear trend is observed between a single independent variable and a continuous dependent variable. It is typically used for trend estimation, forecasting, and effect-size quantification in controlled or observational settings. If multiple predictors are relevant, multiple linear regression is generally more appropriate.
+Model and notation
+The standard model is $ y_i = \beta_0 + \beta_1 x_i + \varepsilon_i $, where y_i is the response, x_i the predictor, and ε_i the error term. The parameters β_0 (intercept) and β_1 (slope) describe the systematic part of the relationship. The error ε_i captures unmodeled variation and is typically assumed to have mean zero and constant variance.
+Assumptions
+Four core assumptions support estimation and inference: linearity, independence of errors, homoscedasticity, and normality of errors for small-sample inference. Under the Gauss–Markov conditions (linearity, independence, mean-zero errors with constant variance), ordinary least squares (OLS) provides the best linear unbiased estimators. Normality enables exact small-sample tests and confidence intervals via t and F distributions.
+Estimation by OLS
+OLS chooses β ˆ_0,β ˆ_1 to minimize the sum of squared residuals $ \sum (y_i - \hat{y}i)^2 $. Closed-form solutions are $ \hat{\beta}1 = S{xy} / S{xx} $ and $ \hat{\beta}0 = \bar{y} - \hat{\beta}1 \bar{x} $, where $ S{xx}=\sum (x_i-\bar{x})^2 $ and $ S{xy}=\sum (x_i-\bar{x})(y_i-\bar{y}) $. These formulas reflect how the slope scales the covariance relative to the variance in x.
+Geometric interpretation
+In vector form, the fitted values lie in the column space spanned by the constant vector and the predictor vector. The residuals are orthogonal to that subspace, embodying the first-order optimality conditions of least squares. This projection view explains the normal equations and how OLS decomposes total variation into explained and unexplained components.
+Sampling distributions
+Under the standard assumptions, $ \hat{\beta}1 $ is unbiased with variance $ \sigma^2 / S{xx} $, and $ \hat{\beta}0 $ is unbiased with variance $ \sigma^2 \left(\frac{1}{n} + \frac{\bar{x}^2}{S{xx}}\right) $. The error variance is estimated by $ s^2 = \mathrm{SSE}/(n-2) $, where SSE=∑▒ (y_i-y ˆ_i )^2. For normal errors, standardized coefficients follow t distributions with n-2 degrees of freedom.
+Inference on the slope
+Hypothesis tests often target $ H_0:\beta_1=0 $ versus $ H_a:\beta_1\neq 0 $ using $ t = \hat{\beta}_1/\mathrm{SE}(\hat{\beta}_1) $. A two-sided confidence interval for β_1 is $ \hat{\beta}1 \pm t{1-\alpha/2,n-2},\mathrm{SE}(\hat{\beta}_1) $. Statistical significance indicates evidence of a linear association but does not, by itself, establish causality.
+Inference on the intercept
+The intercept is tested with $ t = \hat{\beta}_0/\mathrm{SE}(\hat{\beta}_0) $, though its substantive interpretability depends on whether x=0 lies within a meaningful range. Centering x at a reference value can improve interpretability of the intercept and reduce correlation between parameter estimates.
+Prediction and uncertainty
+For a new value , the estimated mean response has standard error $ s \sqrt{ \frac{1}{n} + \frac{(x*-\bar{x})2}{S_{xx}} } $. Prediction intervals for an individual future  widen to include error variance: $ s \sqrt{ 1 + \frac{1}{n} + \frac{(x*-\bar{x})2}{S_{xx}} } $. Mean-response intervals are narrower than individual prediction intervals due to the absence of individual-level noise.
+Goodness of fit
+Total variability decomposes as $ \mathrm{SST} = \mathrm{SSR} + \mathrm{SSE} $, where SST=∑▒ (y_i-y ‾)^2, SSR=∑▒ (y ˆ_i-y ‾)^2, and SSE=∑▒ (y_i-y ˆ_i )^2. The coefficient of determination $ R^2 = \mathrm{SSR}/\mathrm{SST} = 1 - \mathrm{SSE}/\mathrm{SST} $ measures the fraction of variance explained by the model. In simple regression, $ R^2 $ equals the squared Pearson correlation between x and y.
+ANOVA and the F-test
+An ANOVA table summarizes sums of squares, degrees of freedom, and mean squares to test overall model fit. The F-statistic $ F = \mathrm{MSR}/\mathrm{MSE} $ with 1 and n-2 degrees of freedom tests $ H_0:\beta_1=0 $. In simple regression, the F and the squared t for the slope are algebraically equivalent.
+Residual diagnostics
+Residual plots against fitted values help assess nonlinearity and heteroscedasticity through recognizable patterns. A Q–Q plot of residuals assesses normality, and patterns over time or sequence can reveal autocorrelation. Standardized or studentized residuals assist in identifying unusually large deviations.
+Heteroscedasticity
+Non-constant variance manifests as funnel-shaped residual patterns and inflates or deflates standard errors if unaddressed. Potential remedies include variance-stabilizing transformations or weighted least squares when a variance model is available. Robust (heteroscedasticity-consistent) standard errors can adjust inference without changing coefficient estimates.
+Autocorrelation
+Serial correlation violates independence, biasing standard errors and tests in time-ordered data. The Durbin–Watson statistic and residual ACF plots help diagnose first-order autocorrelation. When present, generalized least squares or autoregressive error models provide consistent estimation and valid inference.
+Outliers, leverage, and influence
+High-leverage points have extreme x values and can strongly affect the fitted line even with moderate residuals. Influence measures such as Cook’s distance combine leverage and residual magnitude to flag points that unduly sway estimates. Investigations should check data quality, measurement context, and model misspecification before considering robust methods or exclusion.
+Transformations
+Transformations can linearize relationships and stabilize variance, improving model fit and interpretability. Common choices include log, square-root, and Box–Cox families applied to y, x, or both. Interpretations change under transformations, so translating effects back to the original scale may be necessary.
+Omitted variable bias
+If a relevant predictor correlated with x is omitted, the slope estimate can be biased. The direction of bias depends on the signs of the slope with respect to the omitted variable and the correlation between predictors. Sensitivity analysis and subject-matter knowledge guide whether a simple model is sufficient.
+Errors-in-variables
+Measurement error in x attenuates the slope toward zero under classical error models. Instrumental variables or replication designs can mitigate this bias when reliable instruments or repeated measurements exist. Careful study design reduces the risk of biased slope estimates due to measurement error.
+Interpretation of coefficients
+The slope β_1 represents the expected change in the mean of y per one-unit increase in x. The intercept β_0 is the expected mean of y when x=0, which may or may not be meaningful depending on the domain. Standardized coefficients, based on z-scored variables, express effects in standard deviation units.
+Centering and scaling
+Centering x at a meaningful value improves the interpretability of the intercept and reduces parameter covariance. Scaling by the standard deviation yields dimensionless estimates and can improve numerical stability in computation. Such preprocessing does not change statistical conclusions in linear models with an intercept.
+Practical workflow
+A robust workflow begins with exploratory plots to assess linearity and identify anomalies. Model fitting should be followed by diagnostics, inference, and sensitivity checks against assumptions and influential points. Final reporting should include model form, estimates, uncertainty, diagnostics, and practical interpretations.
+Worked example
+Consider data $ (x,y) = {(1,2),(2,3),(3,5),(4,4),(5,6)} $ with $ \bar{x}=3 $ and $ \bar{y}=4 $. Compute $ S_{xx} = \sum (x-\bar{x})^2 = 10 $ and $ S_{xy} = \sum (x-\bar{x})(y-\bar{y}) = 9 $, yielding $ \hat{\beta}_1 = 0.9 $ and $ \hat{\beta}_0 = 1.3 $. Residual sum of squares is $ \mathrm{SSE}=1.90 $, so $ s^2=1.90/3 $ and $ R^2 = 1 - 1.90/10 = 0.81 $.
+Inference in the example
+The slope standard error is $ \mathrm{SE}(\hat{\beta}1)= s/\sqrt{S{xx}} \approx 0.252 $ and the t-statistic is $ t \approx 3.57 $ with 3 degrees of freedom. A 95% confidence interval is $ 0.9 \pm 3.182 \times 0.252 \approx [0.10, 1.70] $, suggesting a positive linear association. The intercept $ \hat{\beta}_0=1.3 $ is less central substantively unless x=0 is meaningful.
+Prediction in the example
+At $ x^*=4 $, the fitted mean is $ \hat{y}=1.3 + 0.9\cdot 4 = 4.9 $ with mean-response standard error $ s \sqrt{ 1/n + (x*-\bar{x})2/S_{xx} } $. The individual prediction interval adds $ s $ inside the root to reflect outcome noise. Intervals widen as $ x^* $ moves away from $ \bar{x} $ due to extrapolation uncertainty.
+Bias–variance considerations
+A simple model can be low variance but biased if linearity does not hold or important predictors are omitted. Conversely, overfitting is limited in simple regression, but extrapolations remain risky beyond the observed range. Cross-validation and domain checks help ensure credible predictions.
+Robust alternatives
+When outliers or heteroscedasticity dominate, robust regression using M-estimators can stabilize slope estimation. Quantile regression targets conditional quantiles rather than the mean and resists heavy-tailed noise. These approaches complement, rather than replace, careful diagnostics and data understanding.
+Bayesian perspective
+A Bayesian simple regression assigns priors to β_0,β_1,σ^2 and returns posterior distributions for parameters and predictions. Conjugate priors yield closed-form posteriors, enabling interval estimates as posterior credible intervals. This framework naturally integrates prior knowledge and expresses uncertainty probabilistically.
+Causality cautions
+Regression encodes statistical associations, not causal effects, without strong design or identification assumptions. Randomized experiments, natural experiments, or explicit causal modeling frameworks are needed for causal interpretation. Even with strong fit, confounding and selection bias can distort effect claims.
+Data quality and preprocessing
+Missing values, coding errors, and outliers should be addressed prior to modeling to avoid misleading conclusions. Units, scaling, and measurement reliability influence interpretability and numerical stability. Documentation of preprocessing steps improves reproducibility and auditability.
+Communication of results
+Clear reporting includes the model, parameter estimates with intervals, diagnostics, and limitations. Visuals such as scatterplots with fitted lines and residual plots clarify patterns and assumption checks. Contextual interpretation relates numeric results to substantive questions and decision thresholds.
+Common pitfalls
+Extrapolating far beyond observed x ranges can yield unreliable predictions and false confidence. Overreliance on $ R^2 $ obscures practical significance and the validity of assumptions. Ignoring diagnostics and influential points can distort inference and conclusions.
+Extensions
+Multiple linear regression introduces additional predictors and interactions to capture richer patterns. Generalized linear models adapt the link and variance structure for non-normal outcomes. Nonparametric and kernel methods relax linearity at the cost of interpretability and degrees of freedom.
+Mathematical details
+The normal equations for OLS in simple regression are $ \sum r_i = 0 $ and $ \sum x_i r_i = 0 $, where r_i=y_i-y ˆ_i. The hat matrix $ H = X(X^\top X){-1}X\top $ maps y to y ˆ, with diagonal entries h_ii measuring leverage. Cook’s distance $ D_i = \frac{r_i^2}{p,\mathrm{MSE}} \cdot \frac{h_{ii}}{(1-h_{ii})^2} $ gauges global influence with p=2 parameters.
+Numerical stability
+Centering x reduces collinearity of the intercept and slope and improves the conditioning of X^⊤ X. Accumulating sums with compensated summation (e.g., Kahan) can reduce floating-point error in large datasets. QR decomposition or SVD is preferred for numeric robustness over explicit normal equation inversion.
+Model selection context
+While simple regression has no in-model selection, variable choice is a design decision that affects inference. Pre-specification using domain theory avoids p-hacking and improves generalizability. When many potential predictors exist, hold-out validation or penalized frameworks guide responsible selection in extended models.
+Ethical and practical considerations
+Predictions that inform decisions should consider fairness, transparency, and potential harm from errors. Documentation of uncertainty and limitations is essential in sensitive applications such as healthcare or finance. Simple models can be advantageous for interpretability when accuracy trade-offs are acceptable.
+Glossary
+	Intercept: The expected value of y at x=0.
+	Slope: Change in the mean of y per unit change in x.
+	Residual: $ r_i = y_i - \hat{y}_i $, the deviation from the fitted line.
+	SSE/SST/SSR: Sums of squares for error, total, and regression, respectively.
+	Leverage: Influence potential based on the position of x.
+	Cook’s distance: Measure of a point’s impact on the entire fit.
+Minimal computation recipe
+	Compute $ \bar{x}, \bar{y}, S_{xx}, S_{xy} $.
+	Obtain $ \hat{\beta}1=S{xy}/S_{xx} $ and $ \hat{\beta}_0=\bar{y}-\hat{\beta}_1\bar{x} $.
+	Calculate residuals, SSE, $ s^2=\mathrm{SSE}/(n-2) $, and $ R^2=1-\mathrm{SSE}/\mathrm{SST} $.
+	Form standard errors and conduct t/F tests as needed.
+Suggested reporting template
+	Data and context, including units and ranges.
+	Model specification and estimation method.
+	Parameter estimates with 95% confidence intervals and p-values.
+	Diagnostics: residual plots, normality assessment, leverage/influence.
+	Predictive performance metrics and intervals for key scenarios.
+	Limitations and assumptions with discussion of potential violations.
